@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pw.proj.letsmeet.generic.ModelBase;
+import pw.proj.letsmeet.modules.user.dto.CredentialsDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,5 +62,12 @@ public class User extends ModelBase implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(CredentialsDTO credentialsDTO, String encodedPassword) {
+        this.name = credentialsDTO.getName();
+        this.surname = credentialsDTO.getSurname();
+        this.email = credentialsDTO.getEmail();
+        this.password = encodedPassword;
     }
 }

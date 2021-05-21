@@ -34,6 +34,9 @@
                     <v-btn color="primary" @click="login">
                       Zaloguj
                     </v-btn>
+                    <v-btn color="primary" @click="reg">
+                      Rejestracja
+                    </v-btn>
                   </div>
                 </v-col>
               </v-row>
@@ -65,6 +68,9 @@ export default {
     async login() {
       await auth.login(this, this.credentials);
     },
+    reg() {
+      this.$router.push("/register");
+    }
   },
 }
 </script>

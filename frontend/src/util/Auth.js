@@ -22,4 +22,3 @@ export var auth = {
 		context.$router.push("/");
 	},
 };
-
