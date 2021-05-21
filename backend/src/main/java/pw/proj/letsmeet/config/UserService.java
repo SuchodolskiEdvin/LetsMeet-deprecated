@@ -1,26 +1,24 @@
 package pw.proj.letsmeet.config;
 
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pw.proj.letsmeet.modules.user.domain.User;
 import pw.proj.letsmeet.modules.user.query.UserRepository;
 
 @Service
+@NoArgsConstructor
 @AllArgsConstructor
 class UserService implements UserDetailsService {
 
-	final private UserRepository userRepository;
-
-	final private static Logger logger = LogManager.getLogger(UserService.class);
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		User user = userRepository.findByEmailIgnoreCase(s);
-		return user;
+		return userRepository.findByEmailIgnoreCase(s);
 	}
 }

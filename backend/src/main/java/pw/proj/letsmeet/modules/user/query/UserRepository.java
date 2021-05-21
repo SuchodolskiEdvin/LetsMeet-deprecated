@@ -5,5 +5,5 @@ import pw.proj.letsmeet.modules.user.domain.User;
 
 public interface UserRepository extends ModelBaseRepository<User, Long> {
 
-    User findByEmailIgnoreCase(String email);
+	User findByEmailIgnoreCase(String email);
 }

@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ModelBase implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(insertable = false, updatable = false)
-    protected Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(insertable = false, updatable = false)
+	protected Long id;
 
-    @CreationTimestamp
-    protected LocalDateTime creationDate;
+	@CreationTimestamp
+	protected LocalDateTime creationDate;
 
-    @UpdateTimestamp
-    protected LocalDateTime modificationDate;
+	@UpdateTimestamp
+	protected LocalDateTime modificationDate;
 }
