@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 
 public class ModelBaseRepositoryImpl<T extends ModelBase> extends SimpleJpaRepository<T, Long> implements ModelBaseRepository<T, Long> {
 
-    private EntityManager em;
+	private EntityManager em;
 
-    public ModelBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
-        super(entityInformation, entityManager);
-        em = entityManager;
-    }
+	public ModelBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+		super(entityInformation, entityManager);
+		em = entityManager;
+	}
 }
