@@ -30,7 +30,7 @@ export var api = {
         }
         const errorHandler = response => {
             if (typeof onSuccess === "function") {
-                onError(response);
+                onError((response.message.match(/\d+/g) || []).map(n => parseInt(n))[0]);
             }
         }
         axios({

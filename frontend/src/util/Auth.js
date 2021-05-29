@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export var auth = {
-	async login(context, credentials) {
-		localStorage.removeItem('access_token');
+	login(context, credentials) {
 		axios({
 			method: "post",
 			url: process.env.VUE_APP_API_URL + "/oauth/token?grant_type=password" +
@@ -10,7 +9,7 @@ export var auth = {
 				"&password=" + credentials.password,
 			auth: {username: "my-trusted-client", password: "secret"},
 			headers: {"Content-type": "application/x-www-form-urlencoded"},
-		}).then(async response => {
+		}).then(response => {
 			localStorage.setItem("access_token", response.data.access_token);
 			context.$router.push("/app")
 

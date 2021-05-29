@@ -4,6 +4,7 @@ import Vue from "vue";
 import LoginView from "../components/LoginView";
 import MainView from "../components/MainView";
 import RegisterView from "../components/RegisterView";
+import CreateMeetView from "@/components/CreateMeetView";
 Vue.use(VueRouter);
 
 
@@ -17,6 +18,9 @@ const routes = [
     },
     {
         path: "/register", component: RegisterView
+    },
+    {
+        path: "/create-meet", component: CreateMeetView
     }
 ];
 

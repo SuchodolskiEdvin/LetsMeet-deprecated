@@ -7,12 +7,12 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pw.proj.letsmeet.generic.ModelBase;
+import pw.proj.letsmeet.modules.meet.domain.Meet;
 import pw.proj.letsmeet.modules.user.dto.CredentialsDTO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Getter

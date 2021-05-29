@@ -26,20 +26,14 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
-              <v-row>
-
-                <v-col cols="6"/>
-                <v-col offset="1" cols="5">
-                  <div style="float: right">
-                    <v-btn color="primary" @click="login">
-                      Zaloguj
-                    </v-btn>
-                    <v-btn color="primary" @click="reg">
-                      Rejestracja
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
+              <div style="padding: 10px; display: flex; justify-content: space-between">
+                  <v-btn color="primary" @click="reg">
+                    Rejestracja
+                  </v-btn>
+                  <v-btn color="primary" @click="login">
+                    Zaloguj
+                  </v-btn>
+              </div>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -80,14 +74,17 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
