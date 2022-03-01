@@ -1,5 +1,4 @@
 <template>
-  <v-main>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
@@ -17,7 +16,7 @@
                               v-model="credentials.email"
                               type="text"></v-text-field>
                 <v-text-field prepend-icon="lock" name="password"
-                              label="Hasło"
+                              label="Password"
                               v-model="credentials.password"
                               id="password"
                               autocomplete="on"
@@ -26,20 +25,23 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
-              <div style="padding: 10px; display: flex; justify-content: space-between">
-                  <v-btn color="primary" @click="reg">
-                    Rejestracja
-                  </v-btn>
-                  <v-btn color="primary" @click="login">
-                    Zaloguj
-                  </v-btn>
-              </div>
+              <v-row>
+                <v-flex class="justify-space-between d-flex ma-4">
+                    <v-btn color="primary" @click="reg">
+                      Sign up
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="login">
+                      Log in
+                    </v-btn>
+                </v-flex>
+              </v-row>
+
             </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
     </v-container>
-  </v-main>
 </template>
 
 <script>

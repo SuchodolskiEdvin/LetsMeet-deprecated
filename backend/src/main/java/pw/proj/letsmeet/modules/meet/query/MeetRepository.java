@@ -9,4 +9,7 @@ import java.util.List;
 public interface MeetRepository extends ModelBaseRepository<Meet, Long> {
 
     List<Meet> findMeetsByUser(User user);
+
+    List<Meet> findMeetsByUserOrUsersContains(User user1, User user2);
+
 }

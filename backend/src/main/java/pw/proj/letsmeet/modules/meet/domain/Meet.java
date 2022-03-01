@@ -9,6 +9,8 @@ import pw.proj.letsmeet.modules.meet.dto.MeetDTO;
 import pw.proj.letsmeet.modules.user.domain.User;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,10 +27,26 @@ public class Meet extends ModelBase  {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_meets",
+            joinColumns = { @JoinColumn(name = "meet_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    private Set<User> users = new HashSet<>();
+
+
+    @Column(nullable = false)
+    private String date;
+
+    @Column(nullable = false)
+    private String time;
+
     public Meet(MeetDTO meetDTO, User user) {
         this.name = meetDTO.getName();
         this.user = user;
-
+        this.date = meetDTO.getDate();
+        this.time = meetDTO.getTime();
     }
 }
 

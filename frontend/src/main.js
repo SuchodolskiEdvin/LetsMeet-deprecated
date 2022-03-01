@@ -22,6 +22,12 @@ axios.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
+axios.interceptors.response.use((config) => {
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 Vue.prototype.$api = api;
 
 new Vue({

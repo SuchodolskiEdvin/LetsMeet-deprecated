@@ -14,7 +14,5 @@ public class LetsMeetApplication {
     }
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 }

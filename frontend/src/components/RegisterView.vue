@@ -41,14 +41,15 @@
           <v-card-actions>
             <v-row>
 
-              <v-col cols="6"/>
-              <v-col offset="1" cols="5">
-                <div style="float: right">
-                  <v-btn color="primary" @click="reg">
-                    Zarejestruj
-                  </v-btn>
-                </div>
-              </v-col>
+              <v-flex class="justify-space-between d-flex ma-4">
+                <v-btn color="primary" @click="back">
+                  Back
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="reg">
+                  Save
+                </v-btn>
+              </v-flex>
             </v-row>
           </v-card-actions>
         </v-flex>
@@ -59,6 +60,7 @@
 
 <script>
 import {api} from "@/util/Api";
+import {auth} from "@/util/Auth";
 
 export default {
   name: 'RegisterView',
@@ -79,7 +81,7 @@ export default {
   methods: {
     reg() {
       api.post(this, "/user", this.credentials, () => {
-        this.$router.push("/app");
+        auth.login(this, this.credentials);
       }, errorStatus => {
         if (errorStatus === 406) {
           this.passwordsDoNotMatch();
@@ -88,6 +90,10 @@ export default {
           this.accountAlreadyExists();
         }
       });
+    },
+
+    back() {
+      this.$router.push("/");
     },
 
     passwordsDoNotMatch() {

@@ -30,9 +30,6 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
 	/**
 	 * Setting up the endpointsconfigurer authentication manager.
 	 * The AuthorizationServerEndpointsConfigurer defines the authorization and token endpoints and the token services.
@@ -57,7 +54,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 				.withClient(clientId)
 				.authorizedGrantTypes("client_credentials", "password")
 				.authorities("ROLE_CLIENT","ROLE_TRUSTED_CLIENT").scopes("read","write","trust")
-				.resourceIds("oauth2-resource").accessTokenValiditySeconds(tokenValidity).secret(passwordEncoder.encode(secret));
+				.resourceIds("oauth2-resource").accessTokenValiditySeconds(tokenValidity).secret("{noop}" + secret);
 	}
 
 	/**

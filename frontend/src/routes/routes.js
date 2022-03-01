@@ -4,7 +4,7 @@ import Vue from "vue";
 import LoginView from "../components/LoginView";
 import MainView from "../components/MainView";
 import RegisterView from "../components/RegisterView";
-import CreateMeetView from "@/components/CreateMeetView";
+import EditProfile from "@/components/EditProfile";
 Vue.use(VueRouter);
 
 
@@ -20,7 +20,7 @@ const routes = [
         path: "/register", component: RegisterView
     },
     {
-        path: "/create-meet", component: CreateMeetView
+        path: "/edit-profile", component: EditProfile
     }
 ];
 

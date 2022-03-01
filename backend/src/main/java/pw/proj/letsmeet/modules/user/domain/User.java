@@ -12,6 +12,7 @@ import pw.proj.letsmeet.modules.user.dto.CredentialsDTO;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -33,6 +34,9 @@ public class User extends ModelBase implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Meet> meets;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

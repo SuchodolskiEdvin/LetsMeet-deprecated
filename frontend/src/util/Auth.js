@@ -2,6 +2,7 @@ import axios from "axios";
 
 export var auth = {
 	login(context, credentials) {
+		localStorage.removeItem("access_token");
 		axios({
 			method: "post",
 			url: process.env.VUE_APP_API_URL + "/oauth/token?grant_type=password" +
