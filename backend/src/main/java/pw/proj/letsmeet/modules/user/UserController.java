@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pw.proj.letsmeet.config.Cipher;
+import pw.proj.letsmeet.config.EmailValidation;
 import pw.proj.letsmeet.global.ErrorResponse;
 import pw.proj.letsmeet.modules.user.domain.User;
 import pw.proj.letsmeet.modules.user.dto.CredentialsDTO;
@@ -37,6 +38,13 @@ public class UserController {
 			ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT);
 			return ResponseEntity
 					.status(HttpStatus.CONFLICT)
+					.body(response);
+		}
+		EmailValidation emailCheck = new EmailValidation();
+		if (emailCheck.check(credentialsDTO.getEmail()) == false) {
+			ErrorResponse response = new ErrorResponse(HttpStatus.FORBIDDEN);
+			return ResponseEntity
+					.status(HttpStatus.FORBIDDEN)
 					.body(response);
 		}
 
