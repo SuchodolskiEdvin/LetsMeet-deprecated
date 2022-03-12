@@ -72,7 +72,7 @@
             <v-flex align-start justify-end>
             <h4>Password must meet the following requirements:</h4>
             <ul>
-              <li v-bind:class="{ is_valid: passwordMeterParams.contains_eight_characters }">8 Characters</li>
+              <li v-bind:class="{ is_valid: passwordMeterParams.contains_eight_characters }">12 Characters</li>
               <li v-bind:class="{ is_valid: passwordMeterParams.contains_number }">Contains Number</li>
               <li v-bind:class="{ is_valid: passwordMeterParams.contains_uppercase }">Contains Uppercase and Lowercase</li>
               <li v-bind:class="{ is_valid: passwordMeterParams.contains_special_character }">Contains Special Character</li>
@@ -137,47 +137,39 @@ export default {
   computed: {
     progress () {
       let score = 0;
+      let length = this.credentials.password.length;
 
-      if(this.credentials.password.length >= 8) {
-        score += 25;
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_eight_characters = true;
-      } else {
-
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_eight_characters = false;
+      if(this.credentials.password.toUpperCase() !== this.credentials.password) {
+       score += 26;
       }
-
-      if(this.credentials.password.toUpperCase() !== this.credentials.password &&
-          this.credentials.password.toLowerCase() !== this.credentials.password) {
-        score += 25;
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_uppercase = true;
-      } else {
-
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_uppercase = false;
+      if(this.credentials.password.toLowerCase() !== this.credentials.password) {
+        score += 26;
       }
 
       if(/\d/.test(this.credentials.password)) {
-        score += 25;
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_number = true;
-      } else {
-
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_number = false;
+        score += 10;
       }
 
       if(/[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(this.credentials.password)){
-        score += 25;
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_special_character = true;
-      } else {
-
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.passwordMeterParams.contains_special_character = false;
+        score += 32;
       }
+
+      score = length * Math.log(score) / Math.log(2);
+      if(score >= 100)
+        score = 100;
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.passwordMeterParams.contains_eight_characters = length >= 12;
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.passwordMeterParams.contains_uppercase = this.credentials.password.toUpperCase() !== this.credentials.password &&
+          this.credentials.password.toLowerCase() !== this.credentials.password;
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.passwordMeterParams.contains_number = /\d/.test(this.credentials.password);
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.passwordMeterParams.contains_special_character = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(this.credentials.password);
 
       return score;
     },
@@ -199,7 +191,7 @@ export default {
           auth.login(this, this.credentials);
         }, errorStatus => {
           if (errorStatus === 406) {
-            this.passwordsDoNotMatch();
+            this.passwordError();
           } else if (errorStatus === 409) {
             this.accountAlreadyExists();
           } else if (errorStatus === 403) {
@@ -213,8 +205,12 @@ export default {
       this.$router.push("/");
     },
 
-    passwordsDoNotMatch() {
-      this.error_message = "Podane hasła nie zgadzają się."
+    passwordError() {
+      if (this.credentials.password != this.credentials.confirmPassword) {
+        this.error_message = "Podane hasła nie zgadzają się."
+      } else {
+        this.error_message = "Podane hasło jest zbyt słabe lub nie spełnia wymienione warunki."
+      }
     },
 
     accountAlreadyExists() {

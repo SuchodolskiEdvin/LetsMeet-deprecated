@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pw.proj.letsmeet.config.Cipher;
 import pw.proj.letsmeet.config.EmailValidation;
+import pw.proj.letsmeet.config.PasswordStrengthValidation;
 import pw.proj.letsmeet.global.ErrorResponse;
 import pw.proj.letsmeet.modules.user.domain.User;
 import pw.proj.letsmeet.modules.user.dto.CredentialsDTO;
@@ -34,12 +35,6 @@ public class UserController {
 					.status(HttpStatus.NOT_ACCEPTABLE)
 					.body(response);
 		}
-		if (userRepository.existsByEmail(credentialsDTO.getEmail())) {
-			ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT);
-			return ResponseEntity
-					.status(HttpStatus.CONFLICT)
-					.body(response);
-		}
 		EmailValidation emailCheck = new EmailValidation();
 		if (emailCheck.check(credentialsDTO.getEmail()) == false) {
 			ErrorResponse response = new ErrorResponse(HttpStatus.FORBIDDEN);
@@ -47,7 +42,19 @@ public class UserController {
 					.status(HttpStatus.FORBIDDEN)
 					.body(response);
 		}
-
+		PasswordStrengthValidation passwordCheck = new PasswordStrengthValidation();
+		if (!passwordCheck.checkPasswordStrength(credentialsDTO.getPassword())) {
+			ErrorResponse response = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE);
+			return ResponseEntity
+					.status(HttpStatus.NOT_ACCEPTABLE)
+					.body(response);
+		}
+		if (userRepository.existsByEmail(credentialsDTO.getEmail())) {
+			ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT);
+			return ResponseEntity
+					.status(HttpStatus.CONFLICT)
+					.body(response);
+		}
 		Cipher cipher = new Cipher();
 		cipher.setPassword(credentialsDTO.getPassword());
 
