@@ -1,13 +1,12 @@
 package pw.proj.letsmeet.modules.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pw.proj.letsmeet.config.Cipher;
+import pw.proj.letsmeet.config.EmailBot;
 import pw.proj.letsmeet.config.EmailValidation;
 import pw.proj.letsmeet.config.PasswordStrengthValidation;
 import pw.proj.letsmeet.global.ErrorResponse;
@@ -36,7 +35,7 @@ public class UserController {
 					.body(response);
 		}
 		EmailValidation emailCheck = new EmailValidation();
-		if (emailCheck.check(credentialsDTO.getEmail()) == false) {
+		if (!emailCheck.check(credentialsDTO.getEmail())) {
 			ErrorResponse response = new ErrorResponse(HttpStatus.FORBIDDEN);
 			return ResponseEntity
 					.status(HttpStatus.FORBIDDEN)
@@ -63,6 +62,10 @@ public class UserController {
 				cipher.encrypt()
 		);
 		userRepository.save(user);
+
+		EmailBot ebot = new EmailBot(user.getEmail());
+		ebot.sendRegistrationMail();
+
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 
