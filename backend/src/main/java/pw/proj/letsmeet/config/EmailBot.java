@@ -35,11 +35,13 @@ public class EmailBot {
              }
          });
 
-
+         try {
              Message message = prepareMessage(session);
 
              Transport.send(message);
-
+         } catch (MessagingException e) {
+             e.printStackTrace();
+         }
      }
 
      public Message prepareMessage(Session session) {
